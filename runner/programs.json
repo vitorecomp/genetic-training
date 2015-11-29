@@ -1,0 +1,72 @@
+{
+    "programs":[
+        {
+            "name":"mpiexec -n",
+            "name_to_save":"simple_sequential",
+            "arguments":[
+                {
+                    "name":"process",
+                    "type":"list",
+                    "values":["2", "4", "6", "8", "16", "32", "64"]
+                },{
+                    "name":"p_name",
+                    "type":"list",
+                    "values":["./release/sequential_reduce < "]
+                },{
+                    "name":"input",
+                    "type":"list",
+                    "values":["./results/4.txt",
+                        "./results/8.txt",
+                        "./results/16.txt",
+                        "./results/32.txt",
+                        "./results/64.txt",
+                        "./results/128.txt",
+                        "./results/256.txt",
+                        "./results/512.txt",
+                        "./results/1024.txt",
+                        "./results/2048.txt",
+                        "./results/4096.txt",
+                        "./results/8192.txt",
+                        "./results/16384.txt",
+                        "./results/32768.txt",
+                        "./results/65536.txt",
+                        "./results/131072.txt",
+                        "./results/262144.txt",
+                        "./results/524288.txt"]
+                }
+            ]
+        },{
+            "name":"mpiexec -n ",
+            "name_to_save":"tree_reduce",
+            "arguments":[
+                {
+                    "name":"process_2",
+                    "type":"list",
+                    "values":["2", "4", "8", "16", "32", "64"]
+                },{
+                    "name":"p_name",
+                    "type":"list",
+                    "values":["./release/tree_reduce < "]
+                },{
+                    "name":"input",
+                    "type":"list",
+                    "values":[
+                        "./results/64.txt",
+                        "./results/128.txt",
+                        "./results/256.txt",
+                        "./results/512.txt",
+                        "./results/1024.txt",
+                        "./results/2048.txt",
+                        "./results/4096.txt",
+                        "./results/8192.txt",
+                        "./results/16384.txt",
+                        "./results/32768.txt",
+                        "./results/65536.txt",
+                        "./results/131072.txt",
+                        "./results/262144.txt",
+                        "./results/524288.txt"]
+                }
+            ]
+        }
+    ]
+}
