@@ -24,13 +24,16 @@ clean:
 bin/main.o: ./source/main.cpp genetic_core io_mananger libs
 	$(CC) -c ./source/main.cpp $(CFLAGS) -o ./bin/main.o $(LIBS)
 
-genetic_core: bin/GeneticCore.o
+genetic_core: bin/GeneticCore.o bin/Specimen.o
 io_mananger: bin/IOMananger.o
 libs: bin/json.o
 
 #GeneticCore
 bin/GeneticCore.o: ./source/src/GeneticCore.cpp ./source/header/GeneticCore.hpp
 	$(CC) -c ./source/src/GeneticCore.cpp $(CFLAGS) -o ./bin/GeneticCore.o $(LIBS)
+
+bin/Specimen.o: ./source/src/Specimen.cpp ./source/header/Specimen.hpp
+	$(CC) -c ./source/src/Specimen.cpp $(CFLAGS) -o ./bin/Specimen.o $(LIBS)
 
 #IOMananger
 bin/IOMananger.o: ./source/src/IOMananger.cpp ./source/header/IOMananger.hpp

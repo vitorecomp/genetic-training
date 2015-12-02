@@ -1,6 +1,7 @@
 //includes
 #include <iostream>
 #include <stdlib.h>
+#include <pthread.h>
 //files
 #include "./header/IOMananger.hpp"
 #include "./header/GeneticCore.hpp"
@@ -28,10 +29,18 @@ int main(int argc, char *argv[]){
     //gera as configuracoes
     io::configs.openFile(argv[1]);
     io::configs.setConfigs();
-    
+
     //cria core genetico
+    GeneticCore genetic_core;
 
     //cria populacoes
+    genetic_core.startPopulation();
 
     //executa o brain genetico
+    genetic_core.run();
+
+    //sumariza informações
+    genetic_core.generateInformation();
+
+    pthread_exit(NULL);
 }
