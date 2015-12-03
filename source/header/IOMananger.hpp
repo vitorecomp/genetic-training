@@ -4,12 +4,14 @@
 //includes
 #include <iostream>
 #include <fstream>
-#include <pthread.h>
-
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
 
 //files
 #include "../libs/jsonParser/json.h"
-#include "./Thread.hpp"
+#include "./Output/BaseTypes.hpp"
 
 //defines
 
@@ -17,8 +19,8 @@
 using namespace std;
 
 class Configs{
-    pthread_mutex_t m_ended;
-    pthread_cond_t s_ended;
+    std::mutex m_ended;
+    std::condition_variable s_ended;
     bool ended;
 public:
     Configs();
@@ -41,12 +43,15 @@ public:
 
 class Output{
 private:
-    pthread_t runThread_t;
-    pthread_mutex_t runMutex_m;
-    pthread_cond_t runSignal_s;
-    bool running;
+    queue<Message> print_queue;
+    std::mutex queue_mutex;
+    thread *running_thread;
+
+    map<string, Screen*> screen;
+
 public:
     Output();
+    ~Output();
 
     bool run();
     void start();
@@ -54,6 +59,7 @@ public:
     void runSignal();
 
     void print(int, int, string, string);
+    void printMsgBox(string, string);
 };
 
 class Input{
@@ -61,16 +67,26 @@ private:
 public:
     void waitEnter();
     bool isEnded();
+
+    void run();
+};
+
+class Logger{
+private:
+public:
+    enum  Type {ERROR, INFO, WARNING};
+    void run();
+    void log(Type, string);
 };
 
 namespace io{
     extern Configs configs;
     extern Output output;
     extern Input input;
+    extern Logger logger;
 }
 
-
-
+void run_output();
 
 
 #endif

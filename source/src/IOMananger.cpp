@@ -9,8 +9,6 @@ Configs io::configs;
 
 Configs::Configs(){
     this->ended = false;
-    pthread_mutex_init(&this->m_ended, NULL);
-    pthread_cond_init(&this->s_ended, NULL);
 }
 
 
@@ -20,6 +18,7 @@ void Configs::openFile(char *name){
     //open the text
     ifstream myfile;
     myfile.open(name, std::ifstream::in);
+
     //get the string
     if (myfile.is_open()){
         while(getline (myfile,line))
@@ -58,17 +57,15 @@ void Configs::setConfigs(){
 
 
 void Configs::endSignal(){
-    pthread_mutex_lock(&m_ended);
+    std::unique_lock<std::mutex> lck(m_ended);
     ended = true;
-    pthread_mutex_unlock(&m_ended);
-    pthread_cond_broadcast(&s_ended);
+    s_ended.notify_all();
 }
 
 void Configs::waitEnd(){
-    pthread_mutex_lock(&m_ended);
-	if(!ended)
-		pthread_cond_wait(&s_ended, &m_ended);
-	pthread_mutex_unlock(&m_ended);
+    std::unique_lock<std::mutex> lck(m_ended);
+    while (!ended)
+        s_ended.wait(lck);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,39 +74,72 @@ void Configs::waitEnd(){
 ///////////////////////////////////////////////////////////////////////////////
 Output io::output;
 
-void* run_output(void *arg){
-    bool stop = false;
-	Output *output = (Output*)arg;
-	output->waitSignal();
-	output->start();
-	while(!stop) {
-        stop = output->run();
+void run_output(){
+    io::configs.waitEnd();
+    bool empty = false;
+	while(true) {
+        empty = io::output.run();
+        io::input.run();
+
+        if(io::input.isEnded() && empty)
+            break;
 	}
-     pthread_exit(NULL);
 }
 
 Output::Output(){
-    this->runSignal();
+    this->setSize();
+    Screen *main_messages = (Screen*)MessegeBox("main_messages", 0, 0, 20, 10);
 }
+Output::~Output(){}
 
 void Output::start(){
-    io::configs.waitEnd();
-}
-
-void Output::runSignal(){
-	thread::lockMutex(runMutex_m);
-	running = true;
-	thread::cond_signal(runSignal_s);
-	thread::unlockMutex(runMutex_m);
-}
-
-void Output::waitSignal(){
-	thread::lockMutex(runMutex_m);
-	if(!running)
-		thread::cond_wait(runSignal_s, runMutex_m);
-	thread::unlockMutex(runMutex_m);
 }
 
 bool Output::run(){
-    return true;
+    queue_mutex.lock();
+
+    if(print_queue.empty()){
+        queue_mutex.unlock();
+        return true;
+    }
+
+    Message message = print_queue.front();
+    print_queue.pop();
+
+    queue_mutex.unlock();
+
+    if(screen.find(message.box) != screen.end())
+        this->screen[message.box]->print(message);
+    else
+        io::logger.log(Logger::ERROR, "Mapa de screen não encontrado");
+    return false;
 }
+
+void Output::printMsgBox(string box, string msg){
+    queue_mutex.lock();
+    Message message(0, 0, box, msg);
+    this->print_queue.push(message);
+    queue_mutex.unlock();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//Input
+//
+///////////////////////////////////////////////////////////////////////////////
+Input io::input;
+
+void Input::waitEnter(){}
+
+void Input::run(){}
+
+bool Input::isEnded(){}
+
+///////////////////////////////////////////////////////////////////////////////
+//Input
+//
+///////////////////////////////////////////////////////////////////////////////
+Logger io::logger;
+
+void Logger::run(){}
+void Logger::log(Logger::Type, string){}

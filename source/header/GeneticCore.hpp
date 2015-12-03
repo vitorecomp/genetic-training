@@ -2,7 +2,8 @@
 #define GeneticCore_H
 
 //includes
-#include <pthread.h>
+#include <thread>
+#include <mutex>
 #include <iostream>
 
 //files

@@ -1,9 +1,7 @@
 #include "../header/GeneticCore.hpp"
 
 
-GeneticCore::GeneticCore(){
-
-}
+GeneticCore::GeneticCore(){}
 
 void GeneticCore::startPopulation(){
     //get arguments
@@ -20,10 +18,10 @@ void GeneticCore::startPopulation(){
         specimen_list.push_back(Specimen());
 
     //print messages
-    io::output.print(0, 0, "messages", "Populacao start sucess");
+    io::output.printMsgBox("main_messages", "Populacao start sucess");
 }
 void GeneticCore::run(){
-    io::output.print(1, 0, "messages", "Start running algorithm");
+    io::output.printMsgBox("main_messages", "Start running algorithm");
     while(true){
         this->executeAll();
         this->orderByFitness();
@@ -32,14 +30,23 @@ void GeneticCore::run(){
         if(io::input.isEnded())
             break;
     }
-    io::output.print(2, 0, "messages", "Finish running algorithm");
+    io::output.printMsgBox("main_messages", "Finish running algorithm");
 }
 
 void GeneticCore::generateInformation(){
-    io::output.print(3, 0, "messages", "Generate outputing");
+    io::output.printMsgBox("main_messages", "Generate outputing");
     this->generateFinalResults();
     this->generateCorrelationResults();
     this->generateFullReport();
-    io::output.print(4, 0, "messages", "Finished All, Press Enter to end");
+    io::output.printMsgBox("main_messages", "Finished All, Press Enter to end");
     io::input.waitEnter();
 }
+
+void GeneticCore::executeAll(){}
+void GeneticCore::orderByFitness(){}
+void GeneticCore::recreatePopulation(){}
+void GeneticCore::printAll(){}
+
+void GeneticCore::generateFinalResults(){}
+void GeneticCore::generateCorrelationResults(){}
+void GeneticCore::generateFullReport(){}

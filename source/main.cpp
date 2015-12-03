@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
     //gera as configuracoes
     io::configs.openFile(argv[1]);
     io::configs.setConfigs();
-
+    thread io_th(run_output);
     //cria core genetico
     GeneticCore genetic_core;
 
@@ -41,6 +41,5 @@ int main(int argc, char *argv[]){
 
     //sumariza informações
     genetic_core.generateInformation();
-
-    pthread_exit(NULL);
+    io_th.join();
 }

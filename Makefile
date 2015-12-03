@@ -5,7 +5,7 @@
 CC = g++
 
 #flags
-CFLAGS =  -w -std=c++0x -fmax-errors=100
+CFLAGS =  -w -std=c++11 -fmax-errors=100
 
 #normal libs
 LIBS = -pthread
@@ -25,7 +25,7 @@ bin/main.o: ./source/main.cpp genetic_core io_mananger libs
 	$(CC) -c ./source/main.cpp $(CFLAGS) -o ./bin/main.o $(LIBS)
 
 genetic_core: bin/GeneticCore.o bin/Specimen.o
-io_mananger: bin/IOMananger.o
+io_mananger: bin/IOMananger.o bin/IOBasetypes.o
 libs: bin/json.o
 
 #GeneticCore
@@ -38,6 +38,9 @@ bin/Specimen.o: ./source/src/Specimen.cpp ./source/header/Specimen.hpp
 #IOMananger
 bin/IOMananger.o: ./source/src/IOMananger.cpp ./source/header/IOMananger.hpp
 	$(CC) -c ./source/src/IOMananger.cpp $(CFLAGS) -o ./bin/IOMananger.o $(LIBS)
+
+bin/IOBasetypes.o: ./source/src/Output/BaseTypes.cpp ./source/header/Output/BaseTypes.hpp
+	$(CC) -c ./source/src/Output/BaseTypes.cpp $(CFLAGS) -o ./bin/IOBasetypes.o $(LIBS)
 
 #LIBS
 #compile json third-party lib
