@@ -48,9 +48,19 @@ void Configs::openFile(char *name){
 
 void Configs::setConfigs(){
     if(json["output"] != Json::nullValue)
-        this->output = json["low_port"].asBool();
+        this->output = json["output"].asBool();
     else
         this->output = true;
+
+    if(json["windows_cols"] != Json::nullValue)
+        this->windows_cols = json["windows_cols"].asBool();
+    else
+        this->windows_cols = true;
+
+    if(json["windows_lines"] != Json::nullValue)
+        this->windows_lines = json["windows_lines"].asBool();
+    else
+        this->windows_lines = true;
 
     this->endSignal();
 }
@@ -80,6 +90,7 @@ void run_output(){
 	while(true) {
         empty = io::output.run();
         io::input.run();
+        io::logger.run();
 
         if(io::input.isEnded() && empty)
             break;
@@ -87,10 +98,24 @@ void run_output(){
 }
 
 Output::Output(){
-    this->setSize();
-    Screen *main_messages = (Screen*)MessegeBox("main_messages", 0, 0, 20, 10);
+    Output::setSize(io::configs.windows_cols, io::configs.windows_lines);
+    Figure::clearAll();
+    Screen *main_messages = (Screen*) new MessageBox("main_messages", 0, 0, 20, 80);
 }
-Output::~Output(){}
+
+Output::~Output(){
+    for (auto& x: screen) {
+        delete x.second;
+    }
+}
+
+void Output::setSize(uint ncols, uint nlines){
+    stringstream ss;
+    ss << "echo -ne" << "'" << "\e[8;" << ncols << ";" << nlines << "t" << "'";
+    cout << ss.str() << endl;
+
+    system(ss.str().c_str());
+}
 
 void Output::start(){
 }

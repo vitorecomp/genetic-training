@@ -8,10 +8,12 @@
 #include <mutex>
 #include <condition_variable>
 #include <queue>
+#include <sstream>
 
 //files
 #include "../libs/jsonParser/json.h"
 #include "./Output/BaseTypes.hpp"
+#include "./Output/Entities.hpp"
 
 //defines
 
@@ -35,6 +37,10 @@ public:
     bool output;
     unsigned int startNumber;
     unsigned int maxNumber;
+
+    uint windows_cols;
+    uint windows_lines;
+
     char **arguments;
 
     void endSignal();
@@ -58,8 +64,10 @@ public:
     void waitSignal();
     void runSignal();
 
-    void print(int, int, string, string);
+    void print(uint, uint, string, string);
     void printMsgBox(string, string);
+
+    static void setSize(uint, uint);
 };
 
 class Input{

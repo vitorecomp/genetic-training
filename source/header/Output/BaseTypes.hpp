@@ -7,6 +7,7 @@
 
 //defines
 typedef unsigned int uint;
+#define WALL_PRINT "#" 
 
 //namespace
 using namespace std;
@@ -24,5 +25,25 @@ class Screen{
 public:
     virtual void print(Message&) = 0;
 };
+
+class Figure{
+protected:
+    static void move(uint x, uint y);
+public:
+    static void clearAll();
+};
+
+class Box : public Figure{
+public:
+    static void draw(uint, uint, uint, uint);
+};
+
+inline void Figure::move(uint x, uint y){
+    cout << "\33[" << x << ";" << y << "H" << flush;
+}
+
+inline void Figure::clearAll(){
+    cout << "\033c" << flush;
+}
 
 #endif

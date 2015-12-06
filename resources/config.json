@@ -1,3 +1,5 @@
 {
-    "output":true
+    "output":true,
+    "windows_cols":140,
+    "windows_lines":40
 }

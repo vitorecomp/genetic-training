@@ -25,7 +25,7 @@ bin/main.o: ./source/main.cpp genetic_core io_mananger libs
 	$(CC) -c ./source/main.cpp $(CFLAGS) -o ./bin/main.o $(LIBS)
 
 genetic_core: bin/GeneticCore.o bin/Specimen.o
-io_mananger: bin/IOMananger.o bin/IOBasetypes.o
+io_mananger: bin/IOMananger.o bin/IOBasetypes.o bin/IOEntities.o
 libs: bin/json.o
 
 #GeneticCore
@@ -42,6 +42,9 @@ bin/IOMananger.o: ./source/src/IOMananger.cpp ./source/header/IOMananger.hpp
 bin/IOBasetypes.o: ./source/src/Output/BaseTypes.cpp ./source/header/Output/BaseTypes.hpp
 	$(CC) -c ./source/src/Output/BaseTypes.cpp $(CFLAGS) -o ./bin/IOBasetypes.o $(LIBS)
 
+bin/IOEntities.o: ./source/src/Output/Entities.cpp ./source/header/Output/Entities.hpp
+	$(CC) -c ./source/src/Output/Entities.cpp $(CFLAGS) -o ./bin/IOEntities.o $(LIBS)
+
 #LIBS
 #compile json third-party lib
 bin/json.o: ./source/libs/jsonParser/json.h ./source/libs/jsonParser/jsoncpp.cpp
@@ -53,29 +56,3 @@ bin/json.o: ./source/libs/jsonParser/json.h ./source/libs/jsonParser/jsoncpp.cpp
 ##############################################################
 #test libs
 LIB_TEST = -lcppunit
-
-#compile logger test
-testLogger: clean ./testes/loggerTest/loggerTest.cpp ./testes/loggerTest/main.cpp bin/logger.o
-	-ipcrm -Q 0x2587
-	-rm log.txt
-	$(CC) -c ./testes/loggerTest/loggerTest.cpp $(CFLAGS) -o ./bin/loggerTest.o $(LIBS) $(LIB_TEST)
-	$(CC) -c ./testes/loggerTest/main.cpp $(CFLAGS) -o ./bin/loggerTestMain.o $(LIBS) $(LIB_TEST)
-	$(CC) ./bin/*.o $(CFLAGS) -o ./release/loggerTest $(LIBS) $(LIB_TEST)
-
-#compile json entities test
-testJson: clean ./testes/jsonTest/jsonTest.cpp ./testes/jsonTest/main.cpp bin/logger.o bin/entities.o
-	$(CC) -c ./testes/jsonTest/jsonTest.cpp $(CFLAGS) -o ./bin/jsonTest.o $(LIBS) $(LIB_TEST)
-	$(CC) -c ./testes/jsonTest/main.cpp $(CFLAGS) -o ./bin/jsonTestMain.o $(LIBS) $(LIB_TEST)
-	$(CC) ./bin/*.o $(CFLAGS) -o ./release/jsonTest $(LIBS) $(LIB_TEST)
-
-#compile entities/basetypes tests
-testEntities: clean ./testes/entitiesTest/entitiesTest.cpp ./testes/entitiesTest/entitiesTest.hpp ./testes/entitiesTest/main.cpp bin/entities.o
-	$(CC) -c ./testes/entitiesTest/entitiesTest.cpp $(CFLAGS) -o ./bin/entitiesTest.o $(LIBS) $(LIB_TEST)
-	$(CC) -c ./testes/entitiesTest/main.cpp $(CFLAGS) -o ./bin/entitiesTestMain.o $(LIBS) $(LIB_TEST)
-	$(CC) ./bin/*.o $(CFLAGS) -o ./release/entitiesTest $(LIBS) $(LIB_TEST)
-
-#compile database test
-testDatabase: clean ./testes/databaseTestes/databaseTest.cpp ./testes/databaseTestes/main.cpp bin/database.o
-	$(CC) -c ./testes/databaseTestes/databaseTest.cpp $(CFLAGS) -o ./bin/databaseTest.o $(LIBS) $(LIB_TEST)
-	$(CC) -c ./testes/databaseTestes/main.cpp $(CFLAGS) -o ./bin/databaseTestMain.o $(LIBS) $(LIB_TEST)
-	$(CC) ./bin/*.o $(CFLAGS) -o ./release/databaseTest $(LIBS) $(LIB_TEST)
