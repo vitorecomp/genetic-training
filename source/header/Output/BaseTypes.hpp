@@ -7,7 +7,7 @@
 
 //defines
 typedef unsigned int uint;
-#define WALL_PRINT "#" 
+#define WALL_PRINT "#"
 
 //namespace
 using namespace std;
@@ -28,8 +28,9 @@ public:
 
 class Figure{
 protected:
-    static void move(uint x, uint y);
 public:
+    static void end(uint x);
+    static void move(uint x, uint y);
     static void clearAll();
 };
 
@@ -44,6 +45,11 @@ inline void Figure::move(uint x, uint y){
 
 inline void Figure::clearAll(){
     cout << "\033c" << flush;
+}
+
+inline void Figure::end(uint x){
+    move(x, 0);
+    cout << flush;
 }
 
 #endif

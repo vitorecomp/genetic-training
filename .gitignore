@@ -27,4 +27,6 @@
 *.out
 *.app
 
-database/*
+database/online/*
+database/programs/*
+database/rodovia/*

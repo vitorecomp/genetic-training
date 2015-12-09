@@ -24,24 +24,41 @@ class Configs{
     std::mutex m_ended;
     std::condition_variable s_ended;
     bool ended;
+    bool ok;
+
+    void decodeMap();
 public:
     Configs();
 
     void openFile(char*);
     void setConfigs();
 
+    bool configOk();
+    string error_msg;
+
     //variables
     Json::Value json;
 
     //variavles list
     bool output;
-    unsigned int startNumber;
-    unsigned int maxNumber;
 
+    //io
     uint windows_cols;
     uint windows_lines;
 
-    char **arguments;
+
+    //problem
+    unsigned int startNumber;
+    unsigned int maxNumber;
+    vector<string> seeds;
+    double min_acuracy;
+    string database_name;
+
+    //neuron
+    uint num_neurons;
+    uint outputs;
+    uint inputs;
+    int *types;
 
     void endSignal();
     void waitEnd();
@@ -49,12 +66,16 @@ public:
 
 class Output{
 private:
+    std::mutex m_ended;
+    std::condition_variable s_ended;
+    bool ended;
+
     queue<Message> print_queue;
     std::mutex queue_mutex;
     thread *running_thread;
 
+    void makeMap();
     map<string, Screen*> screen;
-
 public:
     Output();
     ~Output();
@@ -66,15 +87,26 @@ public:
 
     void print(uint, uint, string, string);
     void printMsgBox(string, string);
+    void printBarGraph(string, string);
+    void printValues(string, string);
 
     static void setSize(uint, uint);
+
+    void endSignal();
+    void waitEnd();
 };
 
 class Input{
 private:
+    std::mutex end_mutex;
+    bool ended;
 public:
+    Input();
+
     void waitEnter();
     bool isEnded();
+
+    void endSignal();
 
     void run();
 };

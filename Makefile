@@ -8,7 +8,7 @@ CC = g++
 CFLAGS =  -w -std=c++11 -fmax-errors=100
 
 #normal libs
-LIBS = -pthread
+LIBS = -pthread -fopenmp 
 
 #compile project
 all: bin/main.o
@@ -56,3 +56,6 @@ bin/json.o: ./source/libs/jsonParser/json.h ./source/libs/jsonParser/jsoncpp.cpp
 ##############################################################
 #test libs
 LIB_TEST = -lcppunit
+
+database_gen: ./database_gen/main.cpp
+	$(CC) ./database_gen/main.cpp $(CFLAGS) -o ./release/database_gen $(LIBS)
