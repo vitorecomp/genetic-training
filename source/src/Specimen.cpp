@@ -87,7 +87,7 @@ double Specimen::mimSquaRelError(){
 }
 
 string Specimen::getNeural(){
-    return 0;
+    return "0";
 }
 
 double Specimen::testAcuracy(){
@@ -108,15 +108,16 @@ double Specimen::execute(double *valor){
         shift += inputs;
         for(uint j = 0; j < outputs; j++){
             if(types[i] == 0)
-                inter[j] += net[shift + j] * input;
+                inter[j] += 100 * net[shift + j] * input;
             else
-                inter[j] += net[shift + j] * input*input;
+                inter[j] += 100 * net[shift + j] * input*input;
         }
     }
     double erro = 0;
     for(uint j = 0; j < outputs; j++){
-        erro += abs(inter[j] - valor[j + inputs]);
+        erro += abs(inter[j] - valor[j + inputs]) * abs(inter[j] - valor[j + inputs]);
     }
+    return erro;
 }
 
 void Specimen::evaluate(){

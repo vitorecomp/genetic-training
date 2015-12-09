@@ -9,6 +9,7 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <sys/time.h>
 #include <algorithm>
 
 //files

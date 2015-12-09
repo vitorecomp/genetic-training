@@ -1,10 +1,18 @@
 #include "../header/GeneticCore.hpp"
 
+ulint time_to_int(struct timeval start, struct timeval end){
+    return 	((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec));
+}
 
 GeneticCore::GeneticCore(){}
 
 void GeneticCore::startPopulation(){
     this->generation = 0;
+    this->evaluation_time_total = 0;
+    this->order_time_total = 0;
+    this->fusion_time_total = 0;
+    this->time_total = 0;
+    this->time_local = 0;
 
     //get arguments
     this->startNumber = io::configs.startNumber;
@@ -48,6 +56,9 @@ void GeneticCore::run(){
 
         if(io::input.isEnded())
             break;
+
+        if(generation > 1)
+            break;
     }
 
     output.close();
@@ -65,6 +76,8 @@ void GeneticCore::generateInformation(){
 
 void GeneticCore::executeAll(){
     evaluationTime(START);
+
+    #pragma omp parallel for num_threads(io::configs.threads)
     for(uint i = 0; i < specimen_list.size(); i++)
         specimen_list[i].evaluate();
     evaluationTime(FINISH);
@@ -116,7 +129,7 @@ void GeneticCore::printAll(){
 
     ss << endl;
 
-    output << ss.str();
+    output << ss.str() << flush;
 }
 
 bool GeneticCore::isConveged(){
@@ -145,7 +158,7 @@ void GeneticCore::generateFinalResults(){
     ss << "}";
     ss << endl;
 
-    output << ss.str();
+    output << ss.str() << flush;
     output.close();
 }
 
@@ -170,7 +183,7 @@ void GeneticCore::generateFullReport(){
     ss << "}";
     ss << endl;
 
-    output << ss.str();
+    output << ss.str() << flush;
     output.close();
 }
 
@@ -212,16 +225,127 @@ void GeneticCore::openDatabase(){
     }
 }
 
-void GeneticCore::openBaseOutput(){}
-void GeneticCore::openFinalFullReport(){}
-void GeneticCore::openFinalResults(){}
+void GeneticCore::openBaseOutput(){
+    output.open("./results/base.csv", std::ofstream::out);
+    stringstream ss;
+    ss << "generation" << ";";
+    ss << "evaluationTime" << ";";
+    ss << "orderTime" << ";";
+    ss << "fusionTime" << ";";
+    ss << "totalTime" << ";";
 
-ulint GeneticCore::evaluationTime(Time){}
-ulint GeneticCore::orderTime(Time){}
-ulint GeneticCore::fusionTime(Time){}
-ulint GeneticCore::totalTime(Time){}
-ulint GeneticCore::setupTime(Time){}
+    ss << "correlation" << ";";
+    ss << "acuracy" << ";";
+    ss << "acuracyAvarange"<< ";";
+    ss << "acuracyVariace";
 
-double GeneticCore::correlation(Time){}
-double GeneticCore::acuracyAvarange(Time){}
-double GeneticCore::acuracyVariace(Time){}
+    ss << endl;
+
+    output << ss.str() << flush;
+}
+void GeneticCore::openFinalFullReport(){
+    output.open("./results/report.csv", std::ofstream::out);
+}
+void GeneticCore::openFinalResults(){
+    output.open("./results/final.csv", std::ofstream::out);
+}
+
+ulint GeneticCore::evaluationTime(Time valor){
+    ulint termo = 0;
+    switch (valor) {
+        case START:
+            gettimeofday(&evaluation_time_start, NULL);
+            return 0;
+        case FINISH:
+            gettimeofday(&evaluation_time_end, NULL);
+            return 0;
+        case LOCAL:
+            termo = time_to_int(evaluation_time_start, evaluation_time_end);
+            evaluation_time_total += termo;
+            return termo;
+        case GLOBAL:
+            return evaluation_time_total;
+    }
+    return 0;
+}
+ulint GeneticCore::orderTime(Time valor){
+    ulint termo = 0;
+    switch (valor) {
+        case START:
+            gettimeofday(&order_time_start, NULL);
+            return 0;
+        case FINISH:
+            gettimeofday(&order_time_end, NULL);
+            return 0;
+        case LOCAL:
+            termo = time_to_int(order_time_start, order_time_end);
+            order_time_total += termo;
+            return termo;
+        case GLOBAL:
+            return order_time_total;
+    }
+    return 0;
+}
+
+ulint GeneticCore::fusionTime(Time valor){
+    ulint termo = 0;
+    switch (valor) {
+        case START:
+            gettimeofday(&fusion_time_start, NULL);
+            return 0;
+        case FINISH:
+            gettimeofday(&fusion_time_end, NULL);
+            return 0;
+        case LOCAL:
+            termo = time_to_int(fusion_time_start, fusion_time_end);
+            fusion_time_total += termo;
+            return termo;
+        case GLOBAL:
+            return fusion_time_total;
+    }
+    return 0;
+}
+
+ulint GeneticCore::totalTime(Time valor){
+    ulint termo = 0;
+    switch (valor) {
+        case LOCAL:
+            termo = time_to_int(evaluation_time_start, evaluation_time_end);
+            termo += time_to_int(fusion_time_start, fusion_time_start);
+            termo += time_to_int(order_time_start, order_time_start);
+            time_total += termo;
+            return termo;
+        case GLOBAL:
+            return time_total;
+    }
+    return 0;
+}
+
+ulint GeneticCore::setupTime(Time valor){
+    ulint termo = 0;
+    switch (valor) {
+        case START:
+            gettimeofday(&setup_time_start, NULL);
+            return 0;
+        case FINISH:
+            gettimeofday(&setup_time_end, NULL);
+            return 0;
+        case LOCAL:
+            termo = time_to_int(setup_time_start, setup_time_end);
+            return termo;
+        case GLOBAL:
+            termo = time_to_int(setup_time_start, setup_time_end);
+            return termo;
+    }
+    return 0;
+}
+
+double GeneticCore::correlation(Time){
+    return 0;
+}
+double GeneticCore::acuracyAvarange(Time){
+    return 0;
+}
+double GeneticCore::acuracyVariace(Time){
+    return 0;
+}
