@@ -146,6 +146,6 @@ void Specimen::recreate(Specimen &pg1, Specimen &pg2){
             this->net[i] = pg2.net[i];
 }
 
-bool Specimen::compare(Specimen &po1, Specimen &po2){
+bool Specimen::compare(const Specimen &po1, const Specimen &po2){
     return po1.acuracy < po2.acuracy;
 }

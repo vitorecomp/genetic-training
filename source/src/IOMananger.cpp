@@ -122,7 +122,7 @@ void Configs::decodeMap(){
     types[0] = 0;
     types[1] = 1;
 
-    threads = 4;
+    threads = 16;
 }
 
 

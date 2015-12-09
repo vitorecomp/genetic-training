@@ -49,7 +49,7 @@ public:
     double testAcuracy();
 
     void evaluate();
-    static bool compare(Specimen&, Specimen&);
+    static bool compare(const Specimen&, const Specimen&);
     void recreate(Specimen&, Specimen&);
 };
 
