@@ -60,6 +60,9 @@ public:
     uint inputs;
     int *types;
 
+    //parallel
+    uint threads;
+
     void endSignal();
     void waitEnd();
 };

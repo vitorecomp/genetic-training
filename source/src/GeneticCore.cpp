@@ -57,7 +57,7 @@ void GeneticCore::run(){
         if(io::input.isEnded())
             break;
 
-        if(generation > 1)
+        if(generation > 100)
             break;
     }
 

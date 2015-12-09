@@ -121,6 +121,8 @@ void Configs::decodeMap(){
     types = (int*)calloc(num_neurons, sizeof(int));
     types[0] = 0;
     types[1] = 1;
+
+    threads = 4;
 }
 
 
