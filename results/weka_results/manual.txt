@@ -1,0 +1,232 @@
+Weka 10 neruos
+
+=== Run information ===
+
+Scheme:weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H 10 -G -R
+Relation:     complete
+Instances:    10000
+Attributes:   3
+              col1
+              col2
+              res
+Test mode:split 66.0% train, remainder test
+
+=== Classifier model (full training set) ===
+
+Linear Node 0
+    Inputs    Weights
+    Threshold    0.5238679534167782
+    Node 1    0.5732120831748866
+    Node 2    -0.9703360870919125
+    Node 3    -0.34366600950712156
+    Node 4    0.7510018547466777
+    Node 5    -0.8599594469617226
+    Node 6    0.21258817250004794
+    Node 7    0.5879427082516638
+    Node 8    0.025983712374719196
+    Node 9    1.7318889433303164
+    Node 10    0.36260916423328066
+Sigmoid Node 1
+    Inputs    Weights
+    Threshold    -2.7227489591443743
+    Attrib col1    -1.2830327524891991
+    Attrib col2    0.17932247766572196
+Sigmoid Node 2
+    Inputs    Weights
+    Threshold    1.7264657861456654
+    Attrib col1    -3.2431741141030175
+    Attrib col2    -0.06324265444476734
+Sigmoid Node 3
+    Inputs    Weights
+    Threshold    -2.5955636267644
+    Attrib col1    -0.3411666121614423
+    Attrib col2    -0.45037444122900316
+Sigmoid Node 4
+    Inputs    Weights
+    Threshold    -3.107759074079565
+    Attrib col1    1.2448127857241726
+    Attrib col2    0.195832513589517
+Sigmoid Node 5
+    Inputs    Weights
+    Threshold    -0.5699737207057384
+    Attrib col1    -2.5957705145832577
+    Attrib col2    -0.09881639368852434
+Sigmoid Node 6
+    Inputs    Weights
+    Threshold    -2.8402910671157358
+    Attrib col1    0.3174463943495629
+    Attrib col2    0.12348814327155481
+Sigmoid Node 7
+    Inputs    Weights
+    Threshold    -2.726047942222782
+    Attrib col1    -1.3045560738554591
+    Attrib col2    0.1783474437933639
+Sigmoid Node 8
+    Inputs    Weights
+    Threshold    -2.7250436086705085
+    Attrib col1    -0.01115784502065072
+    Attrib col2    0.08181299112577706
+Sigmoid Node 9
+    Inputs    Weights
+    Threshold    -4.194871629274058
+    Attrib col1    3.2971260749597984
+    Attrib col2    0.05417768440470994
+Sigmoid Node 10
+    Inputs    Weights
+    Threshold    -2.693590095389899
+    Attrib col1    -0.9558907726939385
+    Attrib col2    0.18530369929243998
+Class
+    Input
+    Node 0
+
+
+Time taken to build model: 13.53 seconds
+
+=== Evaluation on test split ===
+=== Summary ===
+
+Correlation coefficient                 -0.9445
+Mean absolute error                   8868.033
+Root mean squared error               9914.1238
+Relative absolute error                115.1625 %
+Root relative squared error            110.1262 %
+Total Number of Instances             3400
+
+
+
+2 num_neurons
+=== Run information ===
+
+Scheme:weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H 2 -G -R
+Relation:     complete
+Instances:    10000
+Attributes:   3
+              col1
+              col2
+              res
+Test mode:split 66.0% train, remainder test
+
+=== Classifier model (full training set) ===
+
+Linear Node 0
+    Inputs    Weights
+    Threshold    2.3751526056877372
+    Node 1    -1.2644101295273475
+    Node 2    -3.2320415754420777
+Sigmoid Node 1
+    Inputs    Weights
+    Threshold    -1.820781935562953
+    Attrib col1    -0.12424024445299019
+    Attrib col2    -0.37131759629720473
+Sigmoid Node 2
+    Inputs    Weights
+    Threshold    1.574870539128107
+    Attrib col1    -1.987947894784747
+    Attrib col2    -0.0024061585403414203
+Class
+    Input
+    Node 0
+
+
+Time taken to build model: 10.16 seconds
+
+=== Evaluation on test split ===
+=== Summary ===
+
+Correlation coefficient                  0.7418
+Mean absolute error                   9048.3657
+Root mean squared error              10122.3131
+Relative absolute error                117.5043 %
+Root relative squared error            112.4388 %
+Total Number of Instances             3400
+
+5 num_neurons
+
+=== Run information ===
+
+Scheme:weka.classifiers.functions.MultilayerPerceptron -L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H 5 -G -R
+Relation:     complete
+Instances:    10000
+Attributes:   3
+              col1
+              col2
+              res
+Test mode:split 66.0% train, remainder test
+
+=== Classifier model (full training set) ===
+
+Linear Node 0
+    Inputs    Weights
+    Threshold    1.1519040542630687
+    Node 1    1.3584919199337175
+    Node 2    -1.1520479399516756
+    Node 3    0.6535154876729956
+    Node 4    0.5367593920034224
+    Node 5    -1.294398741610419
+Sigmoid Node 1
+    Inputs    Weights
+    Threshold    -3.2382976995141375
+    Attrib col1    2.1372167044642025
+    Attrib col2    0.10342671315950341
+Sigmoid Node 2
+    Inputs    Weights
+    Threshold    -0.12660810512630347
+    Attrib col1    -2.3839180532126503
+    Attrib col2    -0.11262182414093967
+Sigmoid Node 3
+    Inputs    Weights
+    Threshold    -2.7019934495464497
+    Attrib col1    -1.4040908437196202
+    Attrib col2    0.29558685857744227
+Sigmoid Node 4
+    Inputs    Weights
+    Threshold    -2.6971609986028326
+    Attrib col1    -1.2139617864406544
+    Attrib col2    0.27068366499464425
+Sigmoid Node 5
+    Inputs    Weights
+    Threshold    2.6343500078222153
+    Attrib col1    -3.1416864650884273
+    Attrib col2    -0.057823924728257925
+Class
+    Input
+    Node 0
+
+
+Time taken to build model: 8.99 seconds
+
+=== Evaluation on test split ===
+=== Summary ===
+
+Correlation coefficient                 -0.8246
+Mean absolute error                   8867.6611
+Root mean squared error               9913.781
+Relative absolute error                115.1576 %
+Root relative squared error            110.1224 %
+Total Number of Instances             3400
+
+2 deixa convergir
+
+=== Evaluation on test split ===
+=== Summary ===
+
+Correlation coefficient                  0.7418
+Mean absolute error                   9048.3657
+Root mean squared error              10122.3131
+Relative absolute error                117.5043 %
+Root relative squared error            112.4388 %
+Total Number of Instances             3400
+
+10 e deixa
+
+
+=== Evaluation on test split ===
+=== Summary ===
+
+Correlation coefficient                 -0.9445
+Mean absolute error                   8868.033
+Root mean squared error               9914.1238
+Relative absolute error                115.1625 %
+Root relative squared error            110.1262 %
+Total Number of Instances             3400    
