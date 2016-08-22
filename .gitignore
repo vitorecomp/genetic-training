@@ -30,3 +30,7 @@
 database/online/*
 database/programs/*
 database/rodovia/*
+
+release/geneticTraining
+*.DS_Store
+release/geneticTraining
